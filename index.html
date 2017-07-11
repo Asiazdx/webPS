@@ -1,131 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
 <head>
-    <html lang="en">
-    <meta charset="UTF-8">
-    <title>canvas-网页版PS</title>
-    <link rel="stylesheet" href="css/canvas.css">
-    <script src="js/jquery.js"></script>
-    <script src="js/canvas.js"></script>
-    <script src="js/draw.js"></script>
-    </head>
+	<meta charset="UTF-8">
+	<title>canvas实现网页版ps</title>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/canvas.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/iconfont.css">
+</head>
 <body>
+	<div class="box">
+		<ul class="menu">
+			 <li class="menu-list">
+			 	<a href="javascript:;">文件</a>
+			 	<ul class="sonMenu">
+			 		<li>新建</li>
+			 		<li>打开<input type="file" class="open"></li>
+			 		<li>撤销</li>
+			 		<li>保存</li>
+			 	</ul>
+			 </li>
+			 <li class="menu-list">
+			 	<a href="javascript:;">画图</a>
+			 	<ul class="sonMenu">
+			 		<li data-role="line">画线</li>
+			 		<li data-role="rect">矩形</li>
+			 		<li data-role="arc">圆</li>
+			 		<li data-role="polygon">多边形</li>
+			 		<li data-role="pentagrams">多角形</li>
+			 		<li data-role="pen">铅笔工具</li>
+			 	</ul>
+			 </li>
+			 <li class="menu-list">
+			 	<a href="javascript:;">画图方式</a>
+			 	<ul class="sonMenu">
+			 		<li>描边:</li>
+			 		<li><input type="color" data-role="stroke"></li>
+			 		<li>填充:</li>
+			 		<li><input type="color" data-role="fill"></li>
+			 	</ul>
+			 </li>
 
-<div class="box">
-    <ul class="menu">
-        <li class="menu-list">
-            <a href="javascript:;">文件</a>
-            <ul class="aside-menu-list">
-                <li>新建</li>
-                <li>打开<input type="file" class="open"></li>
-                <li>撤销</li>
-                <li>保存</li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">画图</a>
-            <ul class="aside-menu-list">
-                <li data-role="line">画线</li>
-                <li data-role="rect">矩形</li>
-                <li data-role="arc">圆</li>
-                <li data-role="polygon">多边形</li>
-                <li data-role="pentagrams">多角形</li>
-                <li data-role="pen">铅笔工具</li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">画图方式</a>
-            <ul class="aside-menu-list">
-                <li data-role="stroke">描边</li>
-                <li data-role="fill">填充</li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">颜色</a>
-            <ul class="aside-menu-list">
-                <li>边框:</li>
-                <li><input type="color" data-role="strokeStyle"></li>
-                <li>背景:</li>
-                <li><input type="color" data-role="fillStyle"></li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">线条宽度</a>
-            <ul class="aside-menu-list">
-                <li data-role="1">细</li>
-                <li data-role="3">中</li>
-                <li data-role="5">粗</li>
-                <li data-role="null"><input type="number" placeholder="请选择粗细" size="5"></li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">滤镜</a>
-            <ul class="aside-menu-list">
-                <li data-role="rp">反相</li>
-                <li data-role="mosaic">马赛克</li>
-                <li data-role="blur">高斯模糊</li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">橡皮擦</a>
-            <ul class="aside-menu-list">
-                <li><input type="number" placeholder="请选择大小"></li>
-            </ul>
-        </li>
-        <li class="menu-list">
-            <a href="javascript:;">选择</a>
-        </li>
-    </ul>
-    <div class="main">
-        <div class="canvas-box">
-            <canvas></canvas>
-            <div class="copy"></div>
-            <div class="xp"></div>
-            <div class="selectarea"></div>
-        </div>
-        <aside>
-            <ul class="file">
-                <li><i class="iconfont icon-xinjian"></i></li>
-                <li><i class="iconfont icon-dakai"><input type="file" class="open"></i></li>
-                <li><i class="iconfont icon-iocnchexiao"></i></li>
-                <li><i class="iconfont icon-baocun"></i></li>
-            </ul>
-            <ul class="hua">
-                <li><i class="iconfont icon-zhixian"></i></li>
-                <li><i class="iconfont icon-juxing"></i></li>
-                <li><i class="iconfont icon-yuan"></i></li>
-                <li><i class="iconfont icon-duobianxing"></i></li>
-                <li><i class="iconfont icon-wujiaoxing"></i></li>
-                <li><i class="iconfont icon-qianbi"></i></li>
-            </ul>
-            <ul class="hua-style">
-                <li><i class="iconfont icon-stroke"></i></li>
-                <li><i class="iconfont icon-beijing"></i></li>
-            </ul>
-            <ul class="xpxz">
-                <li><i class="iconfont icon-xuanze"></i></li>
-                <li><i class="iconfont icon-xiangpica"></i></li>
-            </ul>
-            <ul class="lvjing">
-                <li><i class="iconfont icon-masaike-copy"></i></li>
-                <li><i class="iconfont icon-iconmobantuijianfanxiang"></i></li>
-                <li><i class="iconfont icon-bk-magnifier"></i></li>
-                <li><i class="iconfont icon-za"></i></li>
-            </ul>
-            <ul class="border-color">
-                <input type="color" data-role="strokeStyle">
-            </ul>
-            <ul class="back-color">
-                <input type="color" data-role="fillStyle">
-            </ul>
-            <ul class="line-width">
-                <i class="iconfont-small"></i>
-                <i class="iconfont-mid"></i>
-                <i class="iconfont-big"></i>
-            </ul>
-        </aside>
-    </div>
-</div>
-<img src="" alt="打开失败" hidden>
-
+			 <li class="menu-list">
+			 	<a href="javascript:;">线条宽度</a>
+			 	<ul class="sonMenu">
+			 		<li data-role="1">细</li>
+			 		<li data-role="3">中</li>
+			 		<li data-role="5">粗</li>
+			 		<li data-role="null">
+			 			<input style="display:block;width:100%;height:100%" type="number" placeholder="请选择粗细" size="5">
+			 		</li>
+			 	</ul>
+			 </li>
+			 <li class="menu-list">
+			 	<a href="javascript:;">滤镜</a>
+			 	<ul class="sonMenu">
+			 		<li data-role="rp">反相</li>
+			 		<li data-role="mosaic">马赛克</li>
+			 		<li data-role="blur">高斯模糊</li>
+			 	</ul>
+			 </li>
+			 <li class="menu-list">
+			 	<a href="javascript:;">橡皮擦</a>
+			 	<ul class="sonMenu">
+			 		<li>
+			 			<input style="display:block;width:100%;height:100%" type="number" placeholder="请选择大小">
+			 		</li>
+			 	</ul>
+			 	<li></li>
+			 </li>
+		</ul>
+		<div class="main">
+			<div class="canvas-box">
+				<canvas></canvas>
+				<div class="copy"></div>
+				<div class="xp"></div>
+				<div class="selectarea"></div>
+			</div>
+		<aside>
+			<ul class="file">
+				<li>
+					<i class="iconfont" title="新建">&#xe60a;</i>
+				</li>
+				<li><i class="iconfont" title="打开">&#xe600;<input type="file" class="open"></i>
+				</li>
+				<li class="back">
+					<i class="iconfont" title="撤销">&#xe63a;</i>
+				</li>
+				<li class="save">
+					<i class="iconfont" title="保存">&#xe64b;</i>
+				</li>
+			</ul>
+			<ul class="hua">
+				 <li data-role="line">
+				 	<i class="iconfont" title="直线">&#xe62e;</i>
+				 </li>
+				 <li data-role="rect">
+				 	<i class="iconfont" title="矩形">&#xe619;</i>
+				 </li>
+				 <li data-role="arc">
+				 	<i class="iconfont" title="圆">&#xe60b;</i>
+				 </li>
+				 <li data-role="polygon">
+				 	<i class="iconfont" title="多边形">&#xe60c;</i>
+				 </li>
+				 <li data-role="pentagrams">
+				 	<i class="iconfont" title="多角形">&#xe612;</i>
+				 </li>
+				 <li data-role="pentagrams-5">
+				 	<i class="iconfont" title="五角星">&#xe6a0;</i>
+				 </li>
+			</ul>
+			<ul class="hua-style">
+				<li>
+				 	<input title="描边" style="width:30px" type="color" data-role="stroke">
+				 	
+				</li>
+				<li>
+					<input title="填充" type="color" style="width:30px"data-role="fill">
+					
+				</li>
+			</ul>
+			<ul class="tool">
+				<li>
+					<i class="iconfont" title="橡皮擦">&#xe602;</i>
+				</li>
+				<li>
+					<i class="iconfont" title="铅笔">&#xe678;</i>
+				</li>
+			</ul>
+			<ul style="border:0" class="lineWidth">
+				<li style="width:100%;height:20px;line-height:20px" data-role="1">
+					<i class="iconfont" title="细线" style="font-size:30px">
+						&#xe62e;
+					</i>
+				</li>
+				<li style="width:100%;height:20px;line-height:20px" data-role="3">
+					<i class="iconfont" title="线" style="font-size:30px">
+						&#xe601;
+					</i>
+			
+				</li>
+				<li style="width:100%;height:20px;line-height:20px" data-role="5">
+					<i class="iconfont" title="粗线" style="font-size:30px">
+						&#xe61e;
+					</i>
+				
+				</li>
+			</ul>
+		</aside>
+	</div>
+	</div>
+	<img src="" alt="打开失败" hidden>
 </body>
 </html>

@@ -1,0 +1,175 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-sizing:border-box;
+}
+a{
+	color: #333;
+	text-decoration: none;
+}
+.box{
+	width: 1000px;
+	height: 550px;
+	border: 1px solid #999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	background: #CDD7E6;
+}
+.menu{
+	width: 100%;
+	height: 60px;
+	background-color: #DCE6F4;
+	border-bottom: 1px solid #9FAEC2;
+	padding: 0 100px;
+	line-height: 60px;
+	text-align: center;
+}
+.menu .menu-list{
+	width: 100px;
+	float: left;
+	padding: 0 40px;
+	height: 60px;
+	position: relative;
+	margin-left: 20px;
+}
+.menu .menu-list a{
+	width: 100%;
+	height: 100%;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition:bankground .5s ease;
+}
+.sonMenu{
+	width: 100%;
+	position: absolute;;
+	top: 60px;
+	left: 0;
+	display: none;
+	z-index: 1000;
+}
+.sonMenu li{
+	width: 100%;
+	height: 30px;
+	background: #f5f5f5;
+	border-bottom:1px solid #666;
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	position: relative;
+	color: #333;
+}
+.sonMenu li:nth-child(1){
+	border-top:1px solid #666;
+};
+.sonMenu li:hover{
+	background-color: #3399FF;
+	color: #fff;
+};
+.menu .menu-list a:hover{
+	color: #fff;
+	background: rgba(26, 33, 41, 0.66); 
+}
+.main{
+	width: 100%;
+	height: 490px;
+	position: relative;
+}
+.main .canvas-box{
+	width: 890px;
+	height: 420px;
+	position: absolute;
+	background: #fff;
+	left:81px;
+	top: 0px;
+}
+.main .canvas-box .copy{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 999;
+	width: 100%;
+	height: 100%;
+	
+}
+.sonMenu .open{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 100%;
+	width: 100%;
+	opacity: 0;
+}
+.xp{
+	width: 10px;
+	height: 10px;
+	border: 1px solid #000;
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: none;
+}
+.selectarea{
+	position:absolute;
+    left:0;top:0;
+    border:1px dotted #000;
+    display:none;
+}
+
+.main aside{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 81px;
+	height: auto;
+	background: #D6D6D6;
+	border-right:1px solid #666666;
+	border-bottom: 1px solid #666666;
+    z-index:1000;
+}
+.main aside ul{
+	width: 100%;
+    height: auto;
+    float: left;
+    margin-bottom: 10px;
+    border-bottom:1px solid #666666;
+    text-align: center;
+}
+.main aside ul li{
+	float: left;
+    width: 40px;
+    height: 40px;
+    line-height:40px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+.main aside ul li:hover{
+	background: #B7C1C1;
+}
+.main aside ul li i{
+    width: 40px;
+    height: 40px;
+}
+
+aside .file .open{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
