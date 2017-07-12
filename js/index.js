@@ -15,8 +15,14 @@
  	 nav.hover(function(){
  	 	$(this).find(".sonMenu").stop().slideToggle();
  	 	$(".xp").css("display","none");
-
+ 	 	drawObj.isshowxp=false;
+ 	 	$(".selectarea").css("display","none");
  	});
+ 	$(".main aside").hover(function(){
+ 		$(".xp").css("display","none");
+ 	 	drawObj.isshowxp=false;
+ 	 	$(".selectarea").css("display","none");
+ 	})
  	//创建画笔
  	var drawObj=new shape(canvas,copy,ctx);
  	/*菜单栏画图*/
@@ -51,6 +57,14 @@
  		drawObj.type=fn;
  		drawObj.draw();
  	})
+ 	//新建画布
+ 	var newCanvas=function(){
+ 		if(drawObj.history.length>0){
+ 			save();
+ 		}
+ 		ctx.clearRect(0,0,canvas.width,canvas.height);
+ 	}
+
  	//工具箱中的铅笔工具
  	$(".tool li:nth-child(2)").click(function(){
  		drawObj.pen();
@@ -96,6 +110,10 @@
  		ctx.clearRect(0,0,canvas.width,canvas.height);
  		drawObj.history=[];
  	}
+ 	//打开
+ 	$(".sonMenu:eq(0) li:nth-child(2) input").change(function(){
+ 		//console.log(this.value);
+ 	})
  	//撤销
  	var back=function(){
  		if(drawObj.history.length==0){
@@ -130,10 +148,20 @@
 		var setXpsize=function(){
 			var xpobj=$(".xp");
 			drawObj.xpsize=$(".sonMenu:eq(5) li input").val();
-			console.log(drawObj.xpsize);
 			drawObj.xp(xpobj);
-			drawObj.isshowxp=true;
+			//drawObj.isshowxp=true;
 		}
+	/*选择工具*/
+	$(".xz").click(function(){
+		var selectarea=$(".selectarea");
+		drawObj.select(selectarea);
+		selectarea.css("border","1px dotted #000");
+	});
+	/*滤镜操作*/
+	//反相
+	$(".sonMenu:eq(4) li:nth-child(1)").click(function(){
+		drawObj.rp(dataobj,0,0);
+	})
 
  	/*绑定事件*/
 
@@ -151,4 +179,7 @@
  	$("aside .back").click(back);
  	$(".tool li:nth-child(1)").click(xp);
  	$(".sonMenu:eq(5) li input").change(setXpsize);
+ 	//新建画布
+ 	$(".sonMenu:eq(0) li:nth-child(1)").click(newCanvas);
+ 	$("aside .newCanvas").click(newCanvas);
  }	

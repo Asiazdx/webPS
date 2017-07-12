@@ -138,39 +138,39 @@ shape.prototype={
 			return false;
 		}
 	},
-	xp:function(xpobj){
-		var that=this;
-		that.copy.onmousemove=function(e){
-			if(!that.isshowxp){
-				return false;
-			}
-			var movex=e.offsetX;
-			var movey=e.offsetY;
-			var lefts=movex-that.xpsize/2;
-			var tops=movey-that.xpsize/2;
-			if(lefts<0){
-				lefts=0;
-			}
-			if(lefts>that.canvas.width-that.xpsize){
-				lefts=that.canvas.width-that.xpsize;
-			}
-			if(tops<0){
-				tops=0;
-			}
-			if(tops>that.canvas.height-that.xpsize){
-				tops=that.canvas.height-that.xpsize;
-			}
-			xpobj.css({
-				display:"block",
-				left:lefts,
-				top:tops,
-				width:that.xpsize+"px",
-				height:that.xpsize+"px"
-			});
-		};
-		that.copy.onmousedown=function(e){
-			that.copy.onmousemove=function(e){
-				var movex=e.offsetX;
+	 xp:function(xpobj){
+        var that=this;
+        that.copy.onmousemove=function(e){
+            if(!that.isshowxp){
+                return false;
+            }
+            var movex=e.offsetX;
+            var movey=e.offsetY;
+            var lefts=movex-that.xpsize/2;
+            var tops=movey-that.xpsize/2;
+            if(lefts<0){
+                lefts=0;
+            }
+            if(lefts>that.canvas.width-that.xpsize){
+                lefts=that.canvas.width-that.xpsize
+            }
+            if(tops<0){
+                tops=0;
+            }
+            if(tops>that.canvas.height-that.xpsize){
+                tops=that.canvas.height-that.xpsize
+            }
+            xpobj.css({
+                display:"block",
+                left:lefts,
+                top:tops,
+                width:that.xpsize+"px",
+                height:that.xpsize+"px"
+            });
+        };
+        that.copy.onmousedown=function(e){
+            that.copy.onmousemove=function(e){
+                var movex=e.offsetX;
                 var movey=e.offsetY;
                 var lefts=movex-that.xpsize/2;
                 var tops=movey-that.xpsize/2;
@@ -194,15 +194,124 @@ shape.prototype={
                     height:that.xpsize+"px"
                 });
                 that.ctx.clearRect(lefts,tops,that.xpsize,that.xpsize);
-			};
-			that.copy.onmouseup=function(){
-				that.copy.onmousemove=null;
+            };
+            that.copy.onmouseup=function(){
+                that.copy.onmousemove=null;
                 that.copy.onmouseup=null;
                 that.xp(xpobj);
                 that.history.push(that.ctx.getImageData(0,0,that.canvas.width,that.canvas.height));
-			}
+            };
+            return false;
+        }
+    },
+	//选择工具
+	select:function(selectobj){
+		var that=this;
+		that.copy.onmousedown=function(e){
+			var startx=e.offsetX;
+			var starty=e.offsetY;
+			var minx,miny,w,h;
+			that.init();
+			that.copy.onmousemove=function(e){
+				var endx=e.offsetX;
+				var endy=e.offsetY;
+				minx=startx>endx?endx:startx;
+				miny=starty>endy?endy:starty;
+				w=Math.abs(startx-endx);
+				h=Math.abs(starty-endy);
+				selectobj.css({
+					left:minx,
+					top:miny,
+					width:w,
+					height:h,
+					display:"block"
+				});
+			};
+			that.copy.onmouseup=function(){
+				that.copy.onmouseup=null;
+				that.copy.onmousemove=null;
+				that.temp=that.ctx.getImageData(minx,miny,w,h);
+				that.ctx.clearRect(minx,miny,w,h);
+				that.history.push(that.ctx.getImageData(0,0,that.canvas.width,that.canvas.height));
+				that.ctx.putImageData(that.temp,minx,miny);
+				that.drag(minx,miny,w,h,selectobj);
+			};
 			return false;
+
 		}
 	},
+		drag:function(x,y,w,h,selectobj){
+			var that=this;
+			that.copy.onmousemove=function(e){
+				selectobj.css("cursor","move");
+			};
+			that.copy.onmousedown=function(e){
+				var ax=selectobj.position().left;
+				var ay=selectobj.position().top;
+				var ox=e.clientX;
+				var oy=e.clientY;
+				that.copy.onmousemove=function(e){
+					that.ctx.clearRect(0,0,that.canvas.width,that.canvas.height);
+					if(that.history.length!=0){
+						that.ctx.putImageData(that.history[that.history.length-1],0,0);
+					}
+					var mx=e.clientX;
+					var my=e.clientY;
+					var lefts=(mx-ox)+ax;
+					var tops=(mx-ox)+ay;
+					if(lefts<0){
+						lefts=0;
+					}
+					if(lefts>that.canvas.width-w){
+						lefts=that.canvas.width-w;
+					}
+					if(tops<0){
+						tops=0;
+					}
+					if(tops>that.canvas.height-h){
+						tops=that.canvas.height-h;
+					}
+					selectobj.css({
+						left:lefts,
+						top:tops,
+						border:"1px dotted #000"
+					});
+					x=lefts;
+					y=tops;
+					that.ctx.putImageData(that.temp,lefts,tops);
+				};
+				that.copy.onmouseup=function(){
+					that.copy.onmousemove=null;
+					that.copy.onmouseup=null;
+					that.drag(x,y,w,h,selectobj);
+					selectobj.css({
+						//
+					});
 
-}	
+				};
+				return false;
+			}
+
+		},
+		/*图片反相*/
+		rp:function(dataobj,x,y){//将图片中的像素点的颜色取反
+			for(var i=0;i<dataobj.width*dataobj.height;i++){
+				dataobj.data[i*4+0]=255-dataobj.data[i*4+0];
+				dataobj.data[i*4+1]=255-dataobj.data[i*4+1];
+				dataobj.data[i*4+2]=255-dataobj.data[i*4+2];
+				dataobj.data[i*4+3] = 255;
+			}
+			this.ctx.putImageData(dataobj,x,y);
+		},
+		/*高斯模糊*/
+		mosaic:function(dataobj,num,x,y){
+			var width=dataobj.width,height=dataobj.height;
+			var num=num;
+
+		},
+		/*马赛克*/
+		blur:function(){
+			
+		}
+	}
+

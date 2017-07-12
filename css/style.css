@@ -30,9 +30,9 @@ a{
 	text-align: center;
 }
 .menu .menu-list{
-	width: 100px;
+	width: 80px;
 	float: left;
-	padding: 0 40px;
+	padding: 0 20px;
 	height: 60px;
 	position: relative;
 	margin-left: 20px;
