@@ -10,6 +10,7 @@
  	var copy=document.querySelector(".copy");
  	canvas.width=canvasBoxW;
  	canvas.height=canvasBoxH;
+ 	var img=document.querySelector(".img");
  /*菜单栏选项卡*/
  	var nav=$(".menu-list");
  	 nav.hover(function(){
@@ -110,9 +111,10 @@
  		ctx.clearRect(0,0,canvas.width,canvas.height);
  		drawObj.history=[];
  	}
- 	//打开
- 	$(".sonMenu:eq(0) li:nth-child(2) input").change(function(){
- 		//console.log(this.value);
+ 	//打开图片
+ 	$(".sonMenu:eq(0) li:nth-child(2)").click(function(){
+ 		ctx.clearRect(0,0,canvas.width,canvas.height);
+ 		ctx.drawImage(img,0,0);
  	})
  	//撤销
  	var back=function(){
@@ -160,9 +162,20 @@
 	/*滤镜操作*/
 	//反相
 	$(".sonMenu:eq(4) li:nth-child(1)").click(function(){
-		drawObj.rp(dataobj,0,0);
+		//ctx.drawImage(img,0,0);
+		var dataObj=ctx.getImageData(0,0,canvas.width,canvas.height);//此处存在兼容问题（在火狐浏览器中打开）
+		drawObj.rp(dataObj,0,0);
 	})
-
+	//高斯模糊
+	$(".sonMenu:eq(4) li:nth-child(3)").click(function(){
+		var dataObj=ctx.getImageData(0,0,canvas.width,canvas.height);
+		drawObj.mosaic(dataObj,120,0,0); 
+	})
+	//马赛克
+	// $(".sonMenu:eq(4) li:nth-child(2)").click(function(){
+	// 	var dataObj=ctx.getImageData(0,0,canvas.width,canvas.height);
+	// 	drawObj.masic(dataObj,120,0,0,img.width,img.height); 
+	// })
  	/*绑定事件*/
 
  	$(".sonMenu:eq(2) li input").change(setStyle);

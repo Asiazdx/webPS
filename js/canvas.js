@@ -304,14 +304,63 @@ shape.prototype={
 			this.ctx.putImageData(dataobj,x,y);
 		},
 		/*高斯模糊*/
-		mosaic:function(dataobj,num,x,y){
-			var width=dataobj.width,height=dataobj.height;
-			var num=num;
+		  mosaic:function (dataobj,num,x,y) {
+        var width = dataobj.width, height = dataobj.height;
+        var num = num;
+        var w = width / num;
+        var h = height / num;
+        for (var i = 0; i < num; i++) {
+            for (var j = 0; j < num; j++) {
+                var dataObj = this.ctx.getImageData(j * w, i * h, w, h);
+                var r = 0, g = 0, b = 0;
+                for (var k = 0; k < dataObj.width * dataObj.height; k++) {
+                    r += dataObj.data[k * 4 + 0];
+                    g += dataObj.data[k * 4 + 1];
+                    b += dataObj.data[k * 4 + 2];
+                }
 
-		},
-		/*马赛克*/
-		blur:function(){
-			
-		}
+                r = parseInt(r / (dataObj.width * dataObj.height));
+                g = parseInt(g / (dataObj.width * dataObj.height));
+                b = parseInt(b / (dataObj.width * dataObj.height));
+
+                for (var k = 0; k < dataObj.width * dataObj.height; k++) {
+                    dataObj.data[k * 4 + 0] = r;
+                    dataObj.data[k * 4 + 1] = g;
+                    dataObj.data[k * 4 + 2] = b;
+                }
+                this.ctx.putImageData(dataObj, x + j * w, y+i * h);
+
+            }
+        }
+    },
+    // masic:function (dataobj,num,x,y,w,h) {
+    //     var width=w;
+    //     var height=h;
+    //     var arr=[];
+    //     var num = num;
+    //     for (var i = 0; i < width; i++) {
+    //         for (var j = 0; j < height; j++) {
+    //             var x1=j+num>width?j-num:j;
+    //             var y1=i+num>height?i-num:i;
+    //             var obj = this.ctx.getImageData(x1, y1,num, num);
+    //             var r = 0, g = 0, b = 0;
+    //             for (var k = 0; k < obj.width * obj.height; k++) {
+    //                 r += obj.data[k * 4 + 0];
+    //                 g += obj.data[k * 4 + 1];
+    //                 b += obj.data[k * 4 + 2];
+    //             }
+    //             r = parseInt(r / (obj.width * obj.height));
+    //             g = parseInt(g / (obj.width * obj.height));
+    //             b = parseInt(b / (obj.width * obj.height));
+    //             arr.push(r,g,b,255);
+    //         }
+    //     }
+    //     for(var i=0;i<dataobj.data.length;i++){
+    //         dataobj.data[i]=arr[i];
+    //     }
+    //     this.ctx.putImageData(dataobj,x,y);
+
+    // },
+	
 	}
 
